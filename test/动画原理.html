@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态组件与v-once的使用</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="../animate.css">
+    </link>
+    <style>
+        /* 默认是 .v-enter,.v-enter-active 
+        但因为在 transition 中加了 name=“fade” */
+        /* 动画的第一帧opacity为0，但是当动画第二帧时，vue将
+        .fade-enter 移除，所以 opacity变为2，此时，fade-enter-active
+        监听到 opacity 发生变化，所以使用 3s 来完成这个动画 */
+        /* 使用animation的 */
+        
+        .fade-enter,
+        .fade-leave-to {
+            opacity: 0;
+        }
+        
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <!-- enter-active-class,leave-active-class是必写animated的，然后加上想要的动画效果 -->
+        <!-- appear,appear-active-class是为了实现页面的初次动画 -->
+        <transition type="transition" name="fade" appear enter-active-class="animated swing fade-enter-active" leave-active-class="animated shake fade-leave-active" appear-active-class="animated swing">
+            <div v-if="show">HELLO world</div>
+        </transition>
+        <button @click="handleClick">切换</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                show: true
+            },
+            methods: {
+                handleClick: function() {
+                    this.show = !this.show;
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

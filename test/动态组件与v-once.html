@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态组件与v-once的使用</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <p>v-once的使用可以提高性能，因为如果不是用的话，使用 v-if 当为false的时候 vue 底层会将组件删除，然后使用的时候又再创建，删除创建删除创建是很上消耗 性能的
+        </p>
+        <!-- <component :is="type"></component> -->
+        <child-one v-if="type==='child-one'"></child-one>
+        <child-two v-if="type==='child-two'"></child-two>
+        <button @click="handleChange">change</button>
+    </div>
+    <script>
+        Vue.component('child-one', {
+            template: `<div v-once>child-one</div>`
+        })
+        Vue.component('child-two', {
+            template: `<div v-once>child-two</div>`
+        })
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                type: 'child-one'
+            },
+            methods: {
+                handleChange: function() {
+                    this.type = this.type === 'child-one' ? 'child-two' : 'child-one'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
